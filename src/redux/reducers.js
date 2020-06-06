@@ -1,29 +1,26 @@
-import { API_START, API_ERROR, API_SUCCESS } from './actions';
+import { API_START, API_ERROR, API_SUCCESS } from "./actions";
 
 export const initialState = {
   isFetching: false,
-  data:[],
-  error:''
+  data: [],
+  error: "",
 };
 
-function rootReducer( state = initialState, action) {
+function rootReducer(state = initialState, action) {
   switch (action.type) {
     case API_START:
       return Object.assign({}, state, {
-        isFetching: true
+        isFetching: true,
       });
     case API_ERROR:
       return Object.assign({}, state, {
         isFetching: false,
-        error: action.error
+        error: action.error,
       });
     case API_SUCCESS:
-      return {...state,
-        isFetching: false,
-        data: action.data
-      };
+      return { ...state, isFetching: false, data: action.data };
     default:
-      return state
+      return state;
   }
 }
 

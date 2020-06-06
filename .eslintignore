@@ -1,0 +1,10 @@
+node_module/
+build/
+server/
+public/
+
+src/setupTests.js
+src/serviceWorker.js
+src/index.ssr.js
+webpack.ssr.config.js
+index.js

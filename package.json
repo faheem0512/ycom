@@ -6,6 +6,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "eslint": "^7.2.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-react": "^7.20.0",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -20,12 +24,37 @@
     "build": "react-scripts build && yarn run ssr",
     "ssr": "cross-env NODE_ENV=production webpack --config ./webpack.ssr.config.js",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "yarn prettier --write src/"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2"
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "cross-env": "^7.0.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.9"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "[[ -n $HUSKY_BYPASS ]] || commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "src": [
+      "yarn lint:fix",
+      "yarn prettier",
+      "git add"
+    ]
   }
 }

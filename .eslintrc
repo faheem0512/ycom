@@ -1,0 +1,29 @@
+{
+  "env": {
+    "browser": true,
+    "jest": true,
+    "es6": true
+  },
+  "plugins": ["import", "react"],
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "warn",
+    "no-eval": "error",
+    "import/first": "error",
+    "quotes": [2, "double"],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.{js|jsx}"],
+      "rules": {
+        "quotes": [2, "single"]
+      }
+    }
+  ]
+}
