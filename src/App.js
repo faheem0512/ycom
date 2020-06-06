@@ -1,14 +1,15 @@
 import React from 'react';
-import {Route,Switch} from 'react-router-dom';
-
+import {Route,Switch,Redirect} from 'react-router-dom';
+import Home from "./components/Home";
 function App() {
   return (
       <div className="App">
         <Switch>
-          <Route path='/' render={()=><div>home</div>} exact/>
-          <Route path='/1' render={()=><div>One</div>} />
-          <Route path='/2' render={()=><div>Two</div>} />
-          <Route path='/3' render={()=><div>Three</div>} />
+            <Route exact path="/">
+                <Redirect from='/' to="/1" />
+            </Route>
+            <Route path='/:pageNo' component={Home} exact/>
+            <Route path='/*' render={()=><div>Page Not Found</div>} />
         </Switch>
       </div>
   );

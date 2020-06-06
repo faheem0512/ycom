@@ -6,23 +6,11 @@ const { renderToNodeStream } = require("react-dom/server");
 const React = require("react");
 const ReactApp = require("../build/static/ssr/main").default;
 const {StaticRouter} = require('react-router-dom');
+const {configureStore} =  require("../src/redux/configureStore");
+const {Provider} = require('react-redux');
 
-console.log(ReactApp);
 
 
-// router.get("/static/*",(req,res)=>{
-//   var staticPath = /static(.*)/.exec(req.url);
-//   const indexFile = path.resolve('./build/'+staticPath[0]);
-//   fs.readFile(indexFile, 'utf8', (err, data) => {
-//     if (err) {
-//       console.error('Something went wrong:', err);
-//       return res.status(500).send('Oops, better luck next time!');
-//     }
-//     return res.send(
-//         data
-//     );
-//   });
-// });
 
 const STWW = "Something went wrong";
 
@@ -43,12 +31,18 @@ router.get("/*", (req, res) => {
   } else {
     var fileName = path.join(__dirname, "../build", "index.html");
     const context = {};
+    const store = configureStore(initialState);
     fs.readFile(fileName, "utf8", (err, file) => {
       if (err) {
         console.error(STWW+':', err);
         return res.status(500).send(STWW+'!');
       }
-      const reactElement = React.createElement(StaticRouter,{location:req.url,context:context},React.createElement(ReactApp));
+      const reactElement = React.createElement(Provider, {
+        store: store
+      }, React.createElement(StaticRouter, {
+        location: req.url,
+        context: context
+      }, React.createElement(ReactApp)));
       const [head, tail] = file.split("{ssr-react-app-space}");
       res.write(head);
       const stream = renderToNodeStream(reactElement);
