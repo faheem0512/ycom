@@ -6,7 +6,7 @@ const { renderToNodeStream } = require("react-dom/server");
 const React = require("react");
 const ReactApp = require("../build/static/ssr/main").default;
 const {StaticRouter} = require('react-router-dom');
-const {configureStore} =  require("../src/redux/configureStore");
+const configureStore =  require("../build/static/ssr/configureStore").default;
 const {Provider} = require('react-redux');
 
 
@@ -31,7 +31,10 @@ router.get("/*", (req, res) => {
   } else {
     var fileName = path.join(__dirname, "../build", "index.html");
     const context = {};
-    const store = configureStore(initialState);
+    const store = configureStore({});
+    // Get a copy of store data to create the same store on client side
+    const preloadedState = store.getState();
+
     fs.readFile(fileName, "utf8", (err, file) => {
       if (err) {
         console.error(STWW+':', err);
@@ -42,7 +45,7 @@ router.get("/*", (req, res) => {
       }, React.createElement(StaticRouter, {
         location: req.url,
         context: context
-      }, React.createElement(ReactApp)));
+      }, React.createElement(ReactApp,{preloadedState})));
       const [head, tail] = file.split("{ssr-react-app-space}");
       res.write(head);
       const stream = renderToNodeStream(reactElement);
