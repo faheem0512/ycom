@@ -7,7 +7,7 @@ function App() {
     <main className="App">
       <Switch>
         <Route path="/:pageNo" component={Dashboard} exact />
-        <Redirect from="/" to="/1" exact/>
+        <Redirect from="/" to="/0" exact/>
         <Route path="/*" render={() => <div>Page Not Found</div>} />
       </Switch>
     </main>

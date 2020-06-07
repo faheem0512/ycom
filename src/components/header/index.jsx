@@ -1,5 +1,6 @@
 import React from "react";
 import {HEADER_VALUES} from "../../utility/constants";
+import "./index.css";
 const Header = () => {
     return <thead className='app-table_header'>
         <tr>

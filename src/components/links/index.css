@@ -1,0 +1,8 @@
+.nav-link {
+    color: #ff6600;
+    text-decoration: none;
+}
+.nav-link.disabled {
+    color: #9c9c9c;
+    cursor: not-allowed;
+}

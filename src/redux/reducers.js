@@ -28,10 +28,12 @@ function rootReducer(state = initialState, action) {
     case API_SUCCESS:{
       let {data} = action;
       const {upVotedRows,hiddenRows} = state;
+      const hideNext = (data.hits.length < data.hitsPerPage) || (data.page+1 === data.nbPages);
+      const message = data.message;
       data = data.hits;
       data = filterHiddenRows(data, hiddenRows);
       data = getUpdatedRows(data, upVotedRows);
-      return { ...state, isFetching: false, data };
+      return { ...state, isFetching: false, data, hideNext,message };
     }
     case HIDE_ROW: {
       let {data} = state;
