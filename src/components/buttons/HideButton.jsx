@@ -9,7 +9,7 @@ const HideButton = ({objectID}) => {
         // dispatch action to hide row
         dispatch(hideRow(objectID))
     };
-    return <button className='hide-button' onClick={onClick(objectID)}>
+    return <button className='hide-button' onClick={onClick(objectID)} aria-label="hide">
         hide
     </button>
 };

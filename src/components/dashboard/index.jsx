@@ -43,7 +43,7 @@ const Dashboard = (props) => {
                   </nav>
                   <div className='horizontal-divider' />
                   <LineChart data={data} />
-              </Fragment>: <NoData message={message}/>}
+              </Fragment>: message && <NoData message={message}/>}
       </div>
   );
 };

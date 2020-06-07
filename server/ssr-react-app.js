@@ -24,47 +24,51 @@ const {Provider} = require('react-redux');
 
 const STWW = "Something went wrong";
 
+router.get('*.js', function(req, res, next) {
+  req.url = req.url + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  res.set('Content-Type', 'text/javascript');
+  next();
+});
+
+router.get('*.css', function(req, res, next) {
+  req.url = req.url + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  res.set('Content-Type', 'text/css');
+  next();
+});
+
+router.get(/\.(png|gz|ico|json|txt|map)$/i, function (req, res) {
+  const indexFile = path.resolve('./build'+req.url);
+  res.sendFile(indexFile);
+});
 
 router.get("/*", (req, res) => {
-  const spiltPathArray  = req.url.split('/');
-  const canBeAFile = spiltPathArray[spiltPathArray.length - 1];
-  if(canBeAFile.includes('.')){
-    const indexFile = path.resolve('./build'+req.url);
-    fs.readFile(indexFile, 'utf8', (err, data) => {
-      if (err) {
-        console.error(STWW+':', err);
-        return res.status(500).send(STWW+'!');
-      }
-      res.write( data );
-      return res.end();
+  var fileName = path.join(__dirname, "../build", "index.html");
+  const context = {};
+  const store = configureStore(initialState);
+  // Get a copy of store data to create the same store on client side
+  const preloadedState = store.getState();
+  fs.readFile(fileName, "utf8", (err, file) => {
+    if (err) {
+      console.error(STWW+':', err);
+      return res.status(500).send(STWW+'!');
+    }
+    const reactElement = React.createElement(Provider, {
+      store: store
+    }, React.createElement(StaticRouter, {
+      location: req.url,
+      context: context
+    }, React.createElement(ReactApp,{preloadedState})));
+    const [head, tail] = file.split("{ssr-react-app-space}");
+    res.write(head);
+    const stream = renderToNodeStream(reactElement);
+    stream.pipe(res, { end: false });
+    stream.on("end", () => {
+      res.write(tail);
+      res.end();
     });
-  } else {
-    var fileName = path.join(__dirname, "../build", "index.html");
-    const context = {};
-    const store = configureStore(initialState);
-    // Get a copy of store data to create the same store on client side
-    const preloadedState = store.getState();
-    fs.readFile(fileName, "utf8", (err, file) => {
-      if (err) {
-        console.error(STWW+':', err);
-        return res.status(500).send(STWW+'!');
-      }
-      const reactElement = React.createElement(Provider, {
-        store: store
-      }, React.createElement(StaticRouter, {
-        location: req.url,
-        context: context
-      }, React.createElement(ReactApp,{preloadedState})));
-      const [head, tail] = file.split("{ssr-react-app-space}");
-      res.write(head);
-      const stream = renderToNodeStream(reactElement);
-      stream.pipe(res, { end: false });
-      stream.on("end", () => {
-        res.write(tail);
-        res.end();
-      });
-    });
-  }
+  });
 });
 
 module.exports = router;

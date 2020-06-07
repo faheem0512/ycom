@@ -7,7 +7,7 @@ const UpVoteButton = ({objectID}) => {
     const onClick = (objectID) => () => {
         dispatch(upVoteRow(objectID));
     };
-    return <button className='up-vote-button' onClick={onClick(objectID)} />
+    return <button className='up-vote-button' onClick={onClick(objectID)} aria-label="upvote" />
 
 };
 

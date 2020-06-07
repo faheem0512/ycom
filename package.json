@@ -30,7 +30,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prettier": "yarn prettier --write src/"
+    "prettier": "yarn prettier --write src/",
+    "postbuild": "find ./build -exec gzip -k '{}' \\;"
   },
   "eslintConfig": {
     "extends": "react-app"
