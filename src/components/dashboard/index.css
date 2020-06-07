@@ -1,0 +1,48 @@
+.app-table {
+    font-size: 0.875rem;
+    width: 100%;
+    color: #252525;
+    font-weight: 500;
+}
+
+nav {
+    color: #ff6600;
+    text-align: right;
+    font-weight: bold;
+    padding: 5px;
+}
+
+nav button {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.horizontal-divider {
+    width: 100%;
+    background-color: #ff6600;
+    height: 3px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+
+@media only screen and (min-width: 768px) {
+
+}
+
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

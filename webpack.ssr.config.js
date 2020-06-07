@@ -6,7 +6,8 @@ const config = require("react-scripts/config/webpack.config.prod");
 
 config.entry = {
     main:"./src/index.ssr.js",
-    configureStore:'./src/redux/configureStore.js'
+    configureStore:'./src/redux/configureStore.js',
+    initialState:'./src/redux/initialState.js'
 };
 
 config.output.filename = "static/ssr/[name].js";

@@ -1,0 +1,48 @@
+.app-table__detail_row {
+    font-size: 0.625rem;
+}
+
+.app-table__detail_row--title {
+    font-size: 0.875rem;
+}
+
+.app-table__detail_row--link {
+    text-decoration: none;
+    color: #757575;
+}
+.app-table__detail_row--link:hover {
+    text-decoration: underline;
+}
+
+.app-table__detail_row--by {
+    color: #b7b7b7;
+}
+.app-table__detail_row--author {
+    color: #252525;
+}
+.app-table__detail_row--time {
+    color: #757575;
+}
+.app-table__detail_row--hide {
+    color: #757575;
+}
+
+.app-table__row--even {
+    background-color: #e4e4e0;
+}
+
+@media only screen and (max-width: 600px) {
+    .app-table__detail_row--hide {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .app-table__detail_row--title {
+        display: block;
+    }
+    .app-table__row {
+        text-align: center;
+    }
+}
+
