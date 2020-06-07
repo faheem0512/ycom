@@ -28,6 +28,7 @@ router.get('*.js', function(req, res, next) {
   req.url = req.url + '.gz';
   res.set('Content-Encoding', 'gzip');
   res.set('Content-Type', 'text/javascript');
+  res.set('Service-Worker-Allowed','/');
   next();
 });
 
