@@ -1,0 +1,1 @@
+export const HEADER_VALUES = ["Comments", "Vote Count", "Up Vote", "News Details"];
