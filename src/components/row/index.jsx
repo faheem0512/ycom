@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {getRelativeTime,getDomainName} from "../../utility";
-import HideButton from "./HideButton";
-import UpVoteButton from "./UpVoteButton";
+import HideButton from "../buttons/HideButton";
+import UpVoteButton from "../buttons/UpVoteButton";
 
 const Row = (props) => {
     const {num_comments, points, title, url, author, created_at, isEven, objectID} = props;

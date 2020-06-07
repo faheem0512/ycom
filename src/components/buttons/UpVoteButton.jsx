@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
-
+import {upVoteRow} from "../../redux/actions";
+import {useDispatch} from "react-redux";
 const UpVoteButton = ({objectID}) => {
+    const dispatch = useDispatch();
     const onClick = (objectID) => () => {
-        // dispatch action to hide row
+        dispatch(upVoteRow(objectID));
     };
     return <button className='up-vote-button' onClick={onClick(objectID)} />
 

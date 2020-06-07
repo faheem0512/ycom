@@ -1,9 +1,23 @@
-import { API_START, API_ERROR, API_SUCCESS } from "./actions";
+import { API_START, API_ERROR, API_SUCCESS, HIDE_ROW, UP_VOTE_ROW } from "./actions";
 
 export const initialState = {
   isFetching: false,
   data: [],
+  hiddenRows:[], // array of string od objectIds
+  upVotedRows:{}, // objectId:rowData
   error: "",
+};
+
+const filterHiddenRows = (data,hiddenRows) => {
+  /*filtering hidden rows */
+  return  data.filter(item => hiddenRows.indexOf(item.objectID) === -1);
+};
+
+const getUpdatedRows = (data,upVotedRows) => {
+  /* over ridding modified data */
+  return  data.map(item => {
+    return upVotedRows[item.objectID] ? upVotedRows[item.objectID] : item;
+  });
 };
 
 function rootReducer(state = initialState, action) {
@@ -17,8 +31,29 @@ function rootReducer(state = initialState, action) {
         isFetching: false,
         error: action.error,
       });
-    case API_SUCCESS:
-      return { ...state, isFetching: false, data: action.data };
+    case API_SUCCESS:{
+      let {data} = action;
+      const {upVotedRows,hiddenRows} = state;
+      data = data.hits;
+      data = filterHiddenRows(data, hiddenRows);
+      data = getUpdatedRows(data, upVotedRows);
+      return { ...state, isFetching: false, data };
+    }
+    case HIDE_ROW: {
+      let {data} = state;
+      const hiddenRows = [...state.hiddenRows, action.objectID];
+      data = filterHiddenRows(data, hiddenRows);
+      return {...state, hiddenRows, data};
+    }
+    case UP_VOTE_ROW: {
+      const {objectID} = action;
+      let {data} = state;
+      let row = data.find(item => item.objectID === objectID);
+      row = {...row, points: row.points + 1};
+      const upVotedRows = {...state.upVotedRows, [objectID]: row};
+      data = getUpdatedRows(data,upVotedRows);
+      return {...state,upVotedRows,data};
+    }
     default:
       return state;
   }

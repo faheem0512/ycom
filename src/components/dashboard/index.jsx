@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { fetchNews } from "../../redux/actions";
 import useAction from "../../hooks";
-import Header from "./Header";
-import Row from "./Row";
+import Header from "../header";
+import Row from "../row";
 import {Link} from "react-router-dom";
-
+import Loader from "../loader";
 
 const Dashboard = (props) => {
   const {match} = props;
@@ -20,12 +20,12 @@ const Dashboard = (props) => {
 
   return (
       <div>
-        {isFetching && <div>Loading</div>}
+        {isFetching && <Loader />}
         {error && <div>{error}</div>}
-        {data && data.hits && <table border={0} cellPadding={5} cellSpacing={0} className='app-table'>
+        {data && data.length > 0 && <table border={0} cellPadding={5} cellSpacing={0} className='app-table'>
           <Header/>
           <tbody>
-          {data.hits.map((item, index) => {
+          {data.map((item, index) => {
             const {num_comments, points, title, url, author, objectID, created_at} = item;
             return <Row num_comments={num_comments} points={points} title={title} key={`${index}__table_row`}
                         url={url} author={author} created_at={created_at} isEven={index % 2 === 0} objectID={objectID}/>
