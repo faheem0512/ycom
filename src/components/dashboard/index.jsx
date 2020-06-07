@@ -7,6 +7,7 @@ import Loader from "../loader";
 import {Error,NoData} from "../views";
 import Link from "../links"
 import "./index.css";
+import LineChart from "../lineChart";
 
 const Dashboard = (props) => {
   const {match} = props;
@@ -41,6 +42,7 @@ const Dashboard = (props) => {
                       <Link to={`/${Number(pageNo)+1}`} disabled={hideNext}>Next</Link>
                   </nav>
                   <div className='horizontal-divider' />
+                  <LineChart data={data} />
               </Fragment>: <NoData message={message}/>}
       </div>
   );
