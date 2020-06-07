@@ -1,12 +1,22 @@
 const fs = require("fs");
 const path = require("path");
 const router = require("express").Router();
+/* as initial state uses localStorage from window which is not available on server so just mocking same*/
+if (typeof window === 'undefined') {
+  global.window = {
+    localStorage:{
+      getItem:()=>('{}')
+    }
+  };
+}
+
 
 const { renderToNodeStream } = require("react-dom/server");
 const React = require("react");
 const ReactApp = require("../build/static/ssr/main").default;
 const {StaticRouter} = require('react-router-dom');
 const configureStore =  require("../build/static/ssr/configureStore").default;
+const initialState =  require("../build/static/ssr/initialState").default;
 const {Provider} = require('react-redux');
 
 
@@ -31,10 +41,9 @@ router.get("/*", (req, res) => {
   } else {
     var fileName = path.join(__dirname, "../build", "index.html");
     const context = {};
-    const store = configureStore({});
+    const store = configureStore(initialState);
     // Get a copy of store data to create the same store on client side
     const preloadedState = store.getState();
-
     fs.readFile(fileName, "utf8", (err, file) => {
       if (err) {
         console.error(STWW+':', err);

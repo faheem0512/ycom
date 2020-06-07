@@ -1,13 +1,6 @@
 import { API_START, API_ERROR, API_SUCCESS, HIDE_ROW, UP_VOTE_ROW } from "./actions";
-import {setInStorage,getFromStorage} from "../utility";
-
-export const initialState = {
-  isFetching: false,
-  data: [],
-  hiddenRows:getFromStorage('hiddenRows') || [], // array of string od objectIds
-  upVotedRows:getFromStorage('upVotedRows') || {}, // objectId:rowData
-  error: "",
-};
+import {setInStorage} from "../utility";
+import initialState from "./initialState";
 
 const filterHiddenRows = (data,hiddenRows) => {
   /*filtering hidden rows */
