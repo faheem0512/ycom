@@ -1,10 +1,11 @@
 import { API_START, API_ERROR, API_SUCCESS, HIDE_ROW, UP_VOTE_ROW } from "./actions";
+import {setInStorage,getFromStorage} from "../utility";
 
 export const initialState = {
   isFetching: false,
   data: [],
-  hiddenRows:[], // array of string od objectIds
-  upVotedRows:{}, // objectId:rowData
+  hiddenRows:getFromStorage('hiddenRows') || [], // array of string od objectIds
+  upVotedRows:getFromStorage('upVotedRows') || {}, // objectId:rowData
   error: "",
 };
 
@@ -42,6 +43,7 @@ function rootReducer(state = initialState, action) {
     case HIDE_ROW: {
       let {data} = state;
       const hiddenRows = [...state.hiddenRows, action.objectID];
+      setInStorage("hiddenRows", hiddenRows);
       data = filterHiddenRows(data, hiddenRows);
       return {...state, hiddenRows, data};
     }
@@ -51,6 +53,7 @@ function rootReducer(state = initialState, action) {
       let row = data.find(item => item.objectID === objectID);
       row = {...row, points: row.points + 1};
       const upVotedRows = {...state.upVotedRows, [objectID]: row};
+      setInStorage("upVotedRows", upVotedRows);
       data = getUpdatedRows(data,upVotedRows);
       return {...state,upVotedRows,data};
     }
