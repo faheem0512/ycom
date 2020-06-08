@@ -15,7 +15,7 @@
 }
 
 .app-table__detail_row--by {
-    color: #b7b7b7;
+    color: #808080;
 }
 .app-table__detail_row--author {
     color: #252525;
@@ -24,7 +24,7 @@
     color: #757575;
 }
 .app-table__detail_row--hide {
-    color: #757575;
+    color: #636363;
 }
 
 .app-table__row--even {
