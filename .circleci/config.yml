@@ -38,16 +38,16 @@ jobs:
             docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
             docker push $REGISTRY_SERVER/$IMAGE__NAME
             docker rmi -f $REGISTRY_SERVER/$IMAGE__NAME
-            - save_cache:
-                name: Save Yarn Package Cache
-                key: yarn-packages-{{ checksum "yarn.lock" }}
-                paths:
-                  - ~/.cache/yarn
-            - persist_to_workspace:
-                root: ~/project
-                paths:
-                  - Dockerfile
-                  - version
+#            - save_cache:
+#                name: Save Yarn Package Cache
+#                key: yarn-packages-{{ checksum "yarn.lock" }}
+#                paths:
+#                  - ~/.cache/yarn
+#            - persist_to_workspace:
+#                root: ~/project
+#                paths:
+#                  - Dockerfile
+#                  - version
   deploy-to-prod:
       machine: true
       steps:
