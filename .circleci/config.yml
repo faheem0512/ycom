@@ -11,6 +11,10 @@ jobs:
           post:
             - git fetch --all
       - setup_remote_docker
+      - run: WORKDIR /app
+          ENV PATH /app/node_modules/.bin:$PATH
+          COPY package.json ./
+          COPY yarn.lock ./
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -25,6 +29,9 @@ jobs:
       - run:
           name: Run Test
           command: yarn run test
+      - run:
+          name: Copying Directory
+          command: COPY . ./
       - run:
           name: Run Build
           command: yarn run build
