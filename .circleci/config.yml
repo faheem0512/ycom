@@ -33,6 +33,12 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
+            echo $CIRCLE_BUILD_NUM "circle build num"
+            echo $CIRCLE_BRANCH "CIRCLE_BRANCH "
+            echo $REGISTRY_SERVER "REGISTRY_SERVER"
+            echo $CIRCLE_BUILD_NUM "circle build num"
+            echo $$IMAGE_NAME "$IMAGE_NAME" 
+
             TAG="1.0.${CIRCLE_BUILD_NUM}-$(echo $CIRCLE_BRANCH | tr '\/' '-')"
             mkdir -p project
             echo $TAG > ~/project/version
