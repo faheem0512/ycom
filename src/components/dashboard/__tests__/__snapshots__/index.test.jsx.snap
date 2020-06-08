@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard render  dashboard 1`] = `
+<div>
+  <div
+    data-testid="dashboard"
+  >
+    <div
+      class="loader-backdrop"
+    >
+      <div
+        id="loader"
+        class="background"
+      >
+        <div
+          class="dots container"
+        >
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

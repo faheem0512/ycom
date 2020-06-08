@@ -2,6 +2,7 @@ node_module/
 build/
 server/
 public/
+coverage/
 
 src/setupTests.js
 src/serviceWorker.js

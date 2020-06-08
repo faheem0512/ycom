@@ -10,7 +10,7 @@ import "./index.css";
 import LineChart from "../lineChart";
 
 const Dashboard = (props) => {
-  const {match} = props;
+  const {match,testId} = props;
   const {
     params: {pageNo},
   } = match;
@@ -22,7 +22,7 @@ const Dashboard = (props) => {
   }, [dispatchableAction, pageNo]);
 
   return (
-      <div>
+      <div data-testid={testId}>
         {isFetching && <Loader />}
         {error && <Error message={error} />}
           {data && data.length > 0 ? <Fragment>
@@ -46,6 +46,10 @@ const Dashboard = (props) => {
               </Fragment>: message && <NoData message={message}/>}
       </div>
   );
+};
+
+Dashboard.defaultProps = {
+  testId:'dashboard'
 };
 
 export default Dashboard;
