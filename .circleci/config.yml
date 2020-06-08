@@ -51,9 +51,16 @@ jobs:
               docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
               docker run --rm -it
 workflows:
-  build-and-publish-docker-image:
+  version: 2
+  build-deploy-image:
     jobs:
-      - build:
+      - build
       - deploy-to-prod:
           requires:
-            -build
+            - build
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - prepod
+#                - uat2
