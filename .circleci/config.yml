@@ -41,10 +41,10 @@ jobs:
             echo $IMAGE_NAME "IMAGE_NAME"
 
             mkdir -p project
-            docker build -t $REGISTRY_SERVER/$IMAGE_NAME .
+            docker build -t $REGISTRY_SERVER/$IMAGE__NAME .
             docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
-            docker push $REGISTRY_SERVER/$IMAGE_NAME
-            docker rmi -f $REGISTRY_SERVER/$IMAGE_NAME
+            docker push $REGISTRY_SERVER/$IMAGE__NAME
+            docker rmi -f $REGISTRY_SERVER/$IMAGE__NAME
 #            - save_cache:
 #                name: Save Yarn Package Cache
 #                key: yarn-packages-{{ checksum "yarn.lock" }}
