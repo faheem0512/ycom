@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  azure-acr: circleci/azure-acr@0.2.0
 jobs:
   build:
     docker:
@@ -19,14 +17,17 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run: yarn install --freeze-lockfile
       - run:
-          name: Install dependencies
+          name: Install Dependencies
           command: yarn install
       - run:
           name: Run linting
           command: yarn run lint
-      -run:
+      - run:
           name: Run Test
           command: yarn run test
+      - run:
+          name: Run Build
+          command: yarn run build
       - store_artifacts:
           path: build/
       - run:
@@ -60,7 +61,7 @@ jobs:
 #            command: |
 #              TAG=`cat workspace/version`
 #              docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
-#              docker run --rm -it -e TF_VAR_repo_branch=$CIRCLE_BRANCH 
+#              docker run --rm -it -e TF_VAR_repo_branch=$CIRCLE_BRANCH
 #  workflows:
 #    build-and-publish-docker-image:
 #      jobs:
