@@ -13,7 +13,8 @@ jobs:
       - setup_remote_docker
       - run:
           name: settinup up path
-          command: cd /app
+          command: |
+            cd /app
             env PATH /app/node_modules/.bin:$PATH
             cp package.json ./
             cp yarn.lock ./
