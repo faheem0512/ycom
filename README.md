@@ -16,6 +16,12 @@ using node js to compute html and serve.
 | Redux         | For state management of App      | 
 | React Router  |  To handle routes      | 
 | React Google Charts        |  To display line graph     | 
+| Circle CI        |  For continuous integration     | 
+| Azure web Service        |  For continuous Deployment     |
+
+THIS APP IS DEPLOYED ON
+https://ycom.azurewebsites.net/
+ 
 
 ## Available Scripts
 
