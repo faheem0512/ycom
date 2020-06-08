@@ -34,7 +34,7 @@ jobs:
           name: Build and push Docker image
           command: |
             echo $CIRCLE_BUILD_NUM "CIRCLE_BUILD_NUM"
-            echo $IMAGE_NAME "IMAGE_NAME"
+            echo $IMAGE__NAME "IMAGE__NAME"
             echo $CIRCLE_BRANCH "CIRCLE_BRANCH "
             echo $REGISTRY_SERVER "REGISTRY_SERVER"
             echo $REGISTRY_NAME "REGISTRY_NAME"
