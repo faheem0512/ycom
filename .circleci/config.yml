@@ -1,17 +1,70 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  azure-acr: circleci/azure-acr@0.2.0
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
+    docker:
+      - image: circleci/node:10
+    environment:
+      DOCKER_SERVER: $REGISTRY_SERVER
+      IMAGE_NAME: $IMAGE_NAME
     steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+      - checkout:
+          post:
+            - git fetch --all
+      - setup_remote_docker
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install --freeze-lockfile
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - run:
+          name: Run linting
+          command: yarn run lint
+      -run:
+          name: Run Test
+          command: yarn run test
+      - store_artifacts:
+          path: build/
+      - run:
+          name: Build and push Docker image
+          command: |
+            TAG="1.0.${CIRCLE_BUILD_NUM}-$(echo $CIRCLE_BRANCH | tr '\/' '-')"
+            mkdir -p project
+            echo $TAG > ~/project/version
+            docker build -t $REGISTRY_SERVER/$IMAGE_NAME:$TAG .
+            docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
+            docker push $REGISTRY_SERVER/$IMAGE_NAME:$TAG
+            docker rmi -f $REGISTRY_SERVER/$IMAGE_NAME:$TAG
+#            - save_cache:
+#                name: Save Yarn Package Cache
+#                key: yarn-packages-{{ checksum "yarn.lock" }}
+#                paths:
+#                  - ~/.cache/yarn
+#            - persist_to_workspace:
+#                root: ~/project
+#                paths:
+#                  - Dockerfile
+#                  - version
+#  deploy-to-prod:
+#      machine: true
+#      steps:
+#        - checkout
+#        - attach_workspace:
+#            at: workspace
+#        - run:
+#            name: deploy ycom
+#            command: |
+#              TAG=`cat workspace/version`
+#              docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
+#              docker run --rm -it -e TF_VAR_repo_branch=$CIRCLE_BRANCH 
+#  workflows:
+#    build-and-publish-docker-image:
+#      jobs:
+#        - build:
+#        - deploy-to-prod:
+#            requires:
+#              -build
