@@ -49,7 +49,7 @@ jobs:
             command: |
               TAG=`cat workspace/version`
               docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
-              docker run --rm -it
+              docker run --rm -it $REGISTRY_SERVER/$IMAGE__NAME
 workflows:
   version: 2
   build-deploy-image:
@@ -62,5 +62,3 @@ workflows:
 #            branches:
 #              only:
 #                - master
-#                - prepod
-#                - uat2
