@@ -5,6 +5,8 @@ using node js to compute html and serve.
  `React Router` is used to manage url and to make every page bookmarkable.
  `Redux` is used for app state management so that it can be share across the App.
  `Google chart` is used for displaying graph **vote vs id**.
+ For `upvote` and `hide` funcitonality `localstorage` is used to persist data even after
+ reload or relaunch of browser.
 
 
 
