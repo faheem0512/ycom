@@ -11,13 +11,13 @@ jobs:
           post:
             - git fetch --all
       - setup_remote_docker
-      - run:
-          name: settinup up path
-          command: |
-            cd /app
-            env PATH /app/node_modules/.bin:$PATH
-            cp package.json ./
-            cp yarn.lock ./
+#      - run:
+#          name: settinup up path
+#          command: |
+#            cd /app
+#            env PATH /app/node_modules/.bin:$PATH
+#            cp package.json ./
+#            cp yarn.lock ./
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -32,9 +32,9 @@ jobs:
       - run:
           name: Run Test
           command: yarn run test
-      - run:
-          name: Copying Directory
-          command: cp . ./
+#      - run:
+#          name: Copying Directory
+#          command: cp . ./
       - run:
           name: Run Build
           command: yarn run build
