@@ -4,6 +4,6 @@ FROM node:13.12.0-alpine as build
 #ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY yarn.lock ./
-COPY build/ ./
+COPY project/build/ ./
 
 CMD ["yarn", "start:ssr"]
