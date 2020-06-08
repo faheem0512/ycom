@@ -47,7 +47,6 @@ jobs:
         - run:
             name: deploy ycom
             command: |
-              TAG=`cat workspace/version`
               docker login -u $REGISTRY_UN -p $REGISTRY_PW $REGISTRY_SERVER
               docker run --rm -it $REGISTRY_SERVER/$IMAGE__NAME
 workflows:
