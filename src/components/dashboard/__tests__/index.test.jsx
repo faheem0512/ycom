@@ -1,5 +1,5 @@
 import React from "react";
-import { renderWithRouterMatch } from "../../../utility/test-utils";
+import { renderWithRouterMatch,fireEvent } from "../../../utility/test-utils";
 import Dashboard from "../index";
 import {successData} from "../mockData";
 
@@ -14,26 +14,44 @@ describe('Dashboard',()=>{
     });
 
     it("fetchData with success", () => {
-        const { getAllByTestId  } = renderWithRouterMatch(Dashboard);
         let localMockFetch = mockFetch(successData);
-        expect(fetch).toHaveBeenCalledTimes(0);
+        const { getAllByTestId  } = renderWithRouterMatch(Dashboard);
+        expect(fetch).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
-            // expect(getAllByTestId("dashboard")[1]).toHaveTextContent(/Microsoft Launches/);
+            expect(getAllByTestId("dashboard")[0]).toHaveTextContent(/Microsoft Launches/);
             localMockFetch.mockClear();
         });
     });
 
+    it("fetchData with failure", () => {
+        let localMockFetch = mockFetch("Some Error",true);
+        const { getAllByTestId  } = renderWithRouterMatch(Dashboard);
+        expect(fetch).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(getAllByTestId("dashboard")[0]).toHaveTextContent(/Some Error/);
+            localMockFetch.mockClear();
+        });
+    });
 
+    it("testing upvote and hide functionlity", () => {
+        let localMockFetch = mockFetch(successData);
+        const { getAllByTestId  } = renderWithRouterMatch(Dashboard);
+        process.nextTick(() => {
+            expect(getAllByTestId("hide-button").length).toBe(20);
+            fireEvent.click(getAllByTestId("hide-button")[0]);
+            expect(getAllByTestId("hide-button").length).toBe(19);
+            const row = getAllByTestId("table-row")[0];
+            const currentVote = row.children[1].innerHTML;
+            fireEvent.click(getAllByTestId("upvote-button")[0]);
+            expect(row.children[1].innerHTML).toBe((Number(currentVote) + 1).toString());
+            localMockFetch.mockClear();
+        });
+    });
 });
 
 
 const mockFetch = (data, isReject) => {
-    /*
-        There is a known compatibility issue with React DOM 16.8 where you will see the following warning:
-        Warning: An update to ComponentName inside a test was not wrapped in act(...)
-      * */
-    // @ts-ignore
-    return jest.spyOn(window, "fetch").mockImplementation(() => {
+    return jest.spyOn(global, "fetch").mockImplementation(() => {
         if (isReject) {
             return Promise.resolve({
                 json: () => Promise.reject(data),

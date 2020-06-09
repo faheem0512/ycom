@@ -5,8 +5,8 @@ import {HideButton,UpVoteButton} from "../buttons";
 import "./index.css";
 
 const Row = (props) => {
-    const {num_comments, points, title, url, author, created_at, isEven, objectID} = props;
-    return <tr className={`${isEven?'app-table__row--even':''} app-table__row`}>
+    const {num_comments, points, title, url, author, created_at, isEven, objectID,testId} = props;
+    return <tr className={`${isEven?'app-table__row--even':''} app-table__row`} data-testid={testId}>
         <td>{num_comments}</td>
         <td>{points}</td>
         <td>
@@ -24,7 +24,12 @@ const Row = (props) => {
 
 };
 
+Row.defaultProps = {
+    testId:"table-row"
+}
+
 Row.propTypes = {
+    testId:PropTypes.string,
     num_comments: PropTypes.number,
     points: PropTypes.number,
     title: PropTypes.string,

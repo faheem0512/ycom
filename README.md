@@ -5,8 +5,9 @@ using node js to compute html and serve.
  `React Router` is used to manage url and to make every page bookmarkable.
  `Redux` is used for app state management so that it can be share across the App.
  `Google chart` is used for displaying graph **vote vs id**.
- For `upvote` and `hide` funcitonality `localstorage` is used to persist data even after
+ For `upvote` and `hide` functionality `localStorage` is used to persist data even after
  reload or relaunch of browser.
+ `server` part is written in es5 and `client` is in es6 to showcase both :)
 
 
 
@@ -22,6 +23,26 @@ using node js to compute html and serve.
 THIS APP IS DEPLOYED ON
 https://ycom.azurewebsites.net/
  
+
+#### How SSR is achieved on top of CRA
+
+A new webpack config was created `webpack.ssr.config` which made additional entries to
+CRA build. such as `build/ssr/configureStore.js`, `build/ssr/initalState.js`
+ and `build/ssr/main.js`.
+These file are for configuring redux store, initial state of redux and full app file apart
+from hydration respectively. `{ssr-react-app-space}` was introduced in html file.
+html file is splitted in head and tail referring `{ssr-react-app-space}`. and then html
+is combined between them and served. currently `post-build` generates `.gz` files for
+all but we serve only of js and css.
+
+##Scope of Improvements
+* File compression based on request header and support on browser.
+* App level theming.
+* Use of **Typescript** for better type check.
+* Optimised Line chart creation as per our requirement. 
+* More unit test cases.
+* Better use of stored artifacts in CI
+* CD using terraform scripts and creating on the fly app service. 
 
 ## Available Scripts
 
